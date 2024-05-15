@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class Cinema {
-    String nome;
-    String endereco;
-    List<Sala> salas;
+    private String nome;
+    private String endereco;
+    private List<Sala> salas;
 
     public Cinema(String nome, String endereco) {
         this.nome = nome;
@@ -11,12 +11,20 @@ public class Cinema {
         this.salas = new ArrayList<>();
     }
 
+    public List<Sala> getSalas() {
+        return salas;
+    }
+
+    public void setSalas(List<Sala> salas) {
+        this.salas = salas;
+    }
+
     void adicionarSala(Sala sala) {
         salas.add(sala);
     }
 
     void removerSala(int numeroSala) {
-        // Implementação para remover sala
+        salas.remove(numeroSala);
     }
 
     List<Filme> consultarFilmesEmExibicao(Date data) {

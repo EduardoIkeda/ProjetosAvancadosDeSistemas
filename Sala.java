@@ -1,13 +1,13 @@
 import java.util.*;
 
 public class Sala {
-    int numero;
-    int capacidadeTotal;
-    int lugaresDisponiveis;
-    IEquipamentoSala equipamento;
-    List<Sessao> sessoes;
+    private int numero;
+    private int capacidadeTotal;
+    private int lugaresDisponiveis;
+    private IEquipamentoSala equipamento;
+    private List<Sessao> sessoes;
 
-    public Sala(int numero, int capacidadeTotal, EquipamentoSala equipamento) {
+    public Sala(int numero, int capacidadeTotal, IEquipamentoSala equipamento) {
         this.numero = numero;
         this.capacidadeTotal = capacidadeTotal;
         this.lugaresDisponiveis = capacidadeTotal;

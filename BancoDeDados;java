@@ -1,0 +1,21 @@
+public class BancoDeDados
+{
+    private static BancoDeDados instance = new BancoDeDados();
+
+    private BancoDeDados() {}
+
+    public static BancoDeDados getInstance()
+    {
+        return instance;
+    }
+
+    public void conectar()
+    {
+        System.out.println("Conectado");
+    }
+
+    public void desconectar()
+    {
+        System.out.println("Desconectado");
+    }
+}

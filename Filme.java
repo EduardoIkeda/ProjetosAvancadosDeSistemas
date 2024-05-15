@@ -1,5 +1,3 @@
-import java.util.*;
-
 enum Categoria {
     ACAO,
     COMEDIA,
