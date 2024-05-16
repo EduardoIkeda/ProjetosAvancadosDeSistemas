@@ -1,3 +1,3 @@
 public interface IPagamento {
-    public boolean RealizarPagamento();
+    public String RealizarPagamento();
 }

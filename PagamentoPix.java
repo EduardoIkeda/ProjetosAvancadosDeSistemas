@@ -6,9 +6,9 @@ public class PagamentoPix implements IPagamento {
     }
 
     @Override
-    public boolean RealizarPagamento()
+    public String RealizarPagamento()
     {
         System.out.println("Pagamento Realizado com Pix!");
-        return true;
+        return "codigo";
     }
 }

@@ -3,7 +3,7 @@ import java.util.*;
 public class Cinema {
     private String nome;
     private String endereco;
-    private List<Sala> salas;
+        private List<Sala> salas;
 
     public Cinema(String nome, String endereco) {
         this.nome = nome;

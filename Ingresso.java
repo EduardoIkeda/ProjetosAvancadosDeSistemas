@@ -1,6 +1,8 @@
+
 import java.util.*;
 
 public class Ingresso {
+
     int id;
     Filme filme;
     Sala sala;
@@ -8,6 +10,8 @@ public class Ingresso {
     float valor;
     Date dataCompra;
     boolean meiaEntrada;
+    String codigoTransacao;
+    int lugar;
 
     public Ingresso(int id, Filme filme, Sala sala, Sessao sessao, float valor, Date dataCompra, boolean meiaEntrada) {
         this.id = id;
@@ -19,11 +23,25 @@ public class Ingresso {
         this.meiaEntrada = meiaEntrada;
     }
 
-    void cancelar() {
+    void Cancelar() {
         // Implementação para cancelar ingresso
     }
 
-    void imprimirTicket() {
+    void ImprimirIngresso() {
         // Implementação para imprimir ticket
+    }
+
+    public void SetCodigoTransacao(String codigoTransacao) {
+        this.codigoTransacao = codigoTransacao;
+    }
+    
+    public Sessao GetSessao()
+    {
+        return sessao;
+    }
+    
+    public int GetLugar()
+    {
+        return lugar;
     }
 }

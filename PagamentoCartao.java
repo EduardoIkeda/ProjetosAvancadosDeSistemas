@@ -13,9 +13,9 @@ public class PagamentoCartao implements IPagamento
     }
     
     @Override
-    public boolean RealizarPagamento()
+    public String RealizarPagamento()
     {
         System.out.println("Pagamento Realizado com cartão final XXXX!");
-        return true;
+        return "codigo";
     }
 }
