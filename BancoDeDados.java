@@ -1,42 +1,52 @@
+import java.util.ArrayList;
 import java.util.List;
 
-public class BancoDeDados
-{
+public class BancoDeDados {
     private static BancoDeDados instance = new BancoDeDados();
 
-    private BancoDeDados() {}
+    private BancoDeDados() {
+        ingressos = new ArrayList<>();
+        filmes = new ArrayList<>();
+        sessoes = new ArrayList<>();
+    }
 
-    public static BancoDeDados getInstance()
-    {
+    public static BancoDeDados getInstance() {
         return instance;
     }
-    
+
     private List<Ingresso> ingressos;
     private List<Filme> filmes;
     private List<Sessao> sessoes;
 
-    public void AdicionaIngresso(Ingresso ingresso)
-    {
+    public void AdicionaIngresso(Ingresso ingresso) {
         ingressos.add(ingresso);
     }
-    
-    public void AdicionaFilme(Filme filme)
-    {
+
+    public void RemoverIngresso(Ingresso ingresso) {
+        ingressos.remove(ingresso);
+    }
+
+    public void AdicionaFilme(Filme filme) {
         filmes.add(filme);
     }
-    
-    public void AdicionaSessao(Sessao sessao)
-    {
+
+    public void AdicionaSessao(Sessao sessao) {
         sessoes.add(sessao);
     }
-    
-    public void Conectar()
-    {
+
+    public void Conectar() {
         System.out.println("Conectado");
     }
 
-    public void Desconectar()
-    {
+    public void Desconectar() {
         System.out.println("Desconectado");
+    }
+
+    public List<Sessao> GetListaSessoes() {
+        return this.sessoes;
+    }
+
+    public List<Ingresso> GetListaIngressos() {
+        return this.ingressos;
     }
 }
