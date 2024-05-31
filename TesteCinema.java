@@ -28,6 +28,9 @@ public class TesteCinema {
         Sessao sessao1 = new Sessao(new Date(), filme1, sala1);
         Sessao sessao2 = new Sessao(new Date(), filme2, sala2);
 
+        EstrategiaPreco estrategiaPadrao = new EstrategiaPrecoPadrao();
+        EstrategiaPreco estrategiaPromocional = new EstrategiaPrecoPromocional(0.2f); // 20% de desconto
+
         // Adicionar sessões ao banco de dados
         BancoDeDados bancoDeDados = BancoDeDados.getInstance();
         bancoDeDados.AdicionaSessao(sessao1);
@@ -79,7 +82,10 @@ public class TesteCinema {
         Sessao sessaoEscolhida = sessoesDisponiveis.get(escolhaSessao - 1);
 
         // Create ticket
-        Ingresso ingresso1 = new Ingresso(1, filme1, sala1, sessao1, 20.0f, new Date(), false);
+        Ingresso ingresso1 = new Ingresso(1, filme1, sala1, sessao1, 20.0f, new Date(), false, estrategiaPadrao);
+        Ingresso ingressoPadrao = new Ingresso(1, filme1, sala1, sessao1, 20.0f, new Date(), false, estrategiaPadrao);
+        Ingresso ingressoPromocional = new Ingresso(2, filme2, sala2, sessao2, 20.0f, new Date(), true, estrategiaPromocional); // Meia-entrada
+
         IPagamento pagamentoCartao = new PagamentoCartao("1234567890123456", "João Silva", "12/23", "Visa");
 
         // Vender ingresso
