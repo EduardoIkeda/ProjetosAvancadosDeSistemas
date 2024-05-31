@@ -22,4 +22,9 @@ public class Filme {
         this.classificacaoEtaria = classificacaoEtaria;
         this.categoria = categoria;
     }
+
+    public String GetTitulo()
+    {
+        return titulo;
+    }
 }

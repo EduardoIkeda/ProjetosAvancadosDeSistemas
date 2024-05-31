@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Sessao {
+
     Date horarioInicio;
     Filme filme;
     Sala sala;
@@ -12,15 +13,20 @@ public class Sessao {
         this.sala = sala;
         this.lugares = new int[sala.GetCapacidadeTotal()];
     }
-    
-    
-    public void SetLugarOcupado(int lugar)
-    {
+
+    public void SetLugarOcupado(int lugar) {
         lugares[lugar] = 1;
     }
-    
-    public void SetLugarLivre(int lugar)
-    {
+
+    public void SetLugarLivre(int lugar) {
         lugares[lugar] = 0;
+    }
+
+    public Date GetHorarioInicio() {
+        return this.horarioInicio;
+    }
+
+    public Filme GetFilme() {
+        return this.filme;
     }
 }
