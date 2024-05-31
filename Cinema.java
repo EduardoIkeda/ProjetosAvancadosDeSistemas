@@ -3,7 +3,7 @@ import java.util.*;
 public class Cinema {
     private String nome;
     private String endereco;
-        private List<Sala> salas;
+    private List<Sala> salas;
 
     public Cinema(String nome, String endereco) {
         this.nome = nome;
@@ -11,24 +11,36 @@ public class Cinema {
         this.salas = new ArrayList<>();
     }
 
+    //#region Gets e Sets
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+    //#endregion
+
+    //#region Gestão das salas
+    
     public List<Sala> getSalas() {
         return salas;
     }
 
-    public void setSalas(List<Sala> salas) {
-        this.salas = salas;
-    }
-
-    void adicionarSala(Sala sala) {
+    public void adicionarSala(Sala sala) {
         salas.add(sala);
     }
 
-    void removerSala(int numeroSala) {
+    public void removerSala(int numeroSala) {
         salas.remove(numeroSala);
     }
+    //#endregion
 
-    List<Filme> consultarFilmesEmExibicao(Date data) {
-        // Implementação para consultar filmes em exibição
-        return new ArrayList<>();
-    }
 }
