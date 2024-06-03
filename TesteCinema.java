@@ -50,45 +50,69 @@ public class TesteCinema {
         // Scanner para entrada do funcionário
         Scanner scanner = new Scanner(System.in);
 
-        // Perguntar ao funcionário qual filme desejado e mostrar lista de filmes disponíveis
-        System.out.println("Escolha o filme desejado:");
-        List<Filme> filmesDisponiveis = gerenciador.GetFilmesComSessoesCadastradas();
-        for (int i = 0; i < filmesDisponiveis.size(); i++) {
-            System.out.println((i + 1) + ". " + filmesDisponiveis.get(i).GetTitulo());
+        while (true) {
+            // Perguntar ao funcionário se deseja comprar um ingresso ou sair
+            System.out.print("Digite 1 para comprar um ingresso ou 0 para sair: ");
+            int escolha = scanner.nextInt();
+            if (escolha == 0) {
+                break;
+            }
+
+            // Perguntar ao funcionário qual filme desejado e mostrar lista de filmes disponíveis
+            System.out.println("Escolha o filme desejado:");
+            List<Filme> filmesDisponiveis = gerenciador.GetFilmesComSessoesCadastradas();
+            for (int i = 0; i < filmesDisponiveis.size(); i++) {
+                System.out.println((i + 1) + ". " + filmesDisponiveis.get(i).GetTitulo());
+            }
+            System.out.print("Digite o número do filme desejado: ");
+            int escolhaFilme = scanner.nextInt();
+            Filme filmeEscolhido = filmesDisponiveis.get(escolhaFilme - 1);
+
+            // Mostrar dias disponíveis para aquele filme
+            System.out.println("Dias disponíveis para o filme " + filmeEscolhido.GetTitulo() + ":");
+            List<Date> diasDisponiveis = gerenciador.GetDiasDisponiveisParaFilme(filmeEscolhido);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            for (int i = 0; i < diasDisponiveis.size(); i++) {
+                System.out.println((i + 1) + ". " + sdf.format(diasDisponiveis.get(i)));
+            }
+            System.out.print("Digite o número do dia desejado: ");
+            int escolhaDia = scanner.nextInt();
+            Date diaEscolhido = diasDisponiveis.get(escolhaDia - 1);
+
+            // Mostrar as sessões disponíveis para o dia escolhido
+            System.out.println("Sessões disponíveis para o dia " + sdf.format(diaEscolhido) + ":");
+            List<Sessao> sessoesDisponiveis = gerenciador.GetSessoesDisponiveisParaFilmeNaData(filmeEscolhido, diaEscolhido);
+            for (int i = 0; i < sessoesDisponiveis.size(); i++) {
+                System.out.println((i + 1) + ". " + sessoesDisponiveis.get(i).GetHorarioInicio());
+            }
+            System.out.print("Digite o número da sessão desejada: ");
+            int escolhaSessao = scanner.nextInt();
+            Sessao sessaoEscolhida = sessoesDisponiveis.get(escolhaSessao - 1);
+
+            // Mostrar lugares disponíveis para a sessão escolhida
+            System.out.println("Lugares disponíveis para a sessão escolhida:");
+            List<Integer> lugaresDisponiveis = gerenciador.GetLugaresDisponiveisPorSessao(sessaoEscolhida);
+            for (int lugar : lugaresDisponiveis) {
+                System.out.print(lugar + " ");
+            }
+            System.out.println();
+            System.out.print("Digite o número do lugar desejado: ");
+            int escolhaLugar = scanner.nextInt();
+
+            // Verificar se o lugar está disponível
+            if (!lugaresDisponiveis.contains(escolhaLugar)) {
+                System.out.println("Lugar indisponível. Por favor, escolha outro lugar.");
+                continue;
+            }
+
+            // Criar ingresso
+            Ingresso ingresso = new Ingresso(1, escolhaLugar, sessaoEscolhida, 20.0f, new Date(), false, estrategiaPadrao);
+            
+            // Criar método de pagamento
+            IPagamento pagamentoCartao = new PagamentoCartao("1234567890123456", "João Silva", "12/23", "Visa");
+
+            // Vender ingresso
+            gerenciador.venderIngresso(funcionario, ingresso, pagamentoCartao);
         }
-        System.out.print("Digite o número do filme desejado: ");
-        int escolhaFilme = scanner.nextInt();
-        Filme filmeEscolhido = filmesDisponiveis.get(escolhaFilme - 1);
-
-        // Mostrar dias disponíveis para aquele filme
-        System.out.println("Dias disponíveis para o filme " + filmeEscolhido.GetTitulo() + ":");
-        List<Date> diasDisponiveis = gerenciador.GetDiasDisponiveisParaFilme(filmeEscolhido);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        for (int i = 0; i < diasDisponiveis.size(); i++) {
-            System.out.println((i + 1) + ". " + sdf.format(diasDisponiveis.get(i)));
-        }
-        System.out.print("Digite o número do dia desejado: ");
-        int escolhaDia = scanner.nextInt();
-        Date diaEscolhido = diasDisponiveis.get(escolhaDia - 1);
-
-        // Mostrar as sessões disponíveis para o dia escolhido
-        System.out.println("Sessões disponíveis para o dia " + sdf.format(diaEscolhido) + ":");
-        List<Sessao> sessoesDisponiveis = gerenciador.GetSessoesDisponiveisParaFilmeNaData(filmeEscolhido, diaEscolhido);
-        for (int i = 0; i < sessoesDisponiveis.size(); i++) {
-            System.out.println((i + 1) + ". " + sessoesDisponiveis.get(i).GetHorarioInicio());
-        }
-        System.out.print("Digite o número da sessão desejada: ");
-        int escolhaSessao = scanner.nextInt();
-        Sessao sessaoEscolhida = sessoesDisponiveis.get(escolhaSessao - 1);
-
-        // Create ticket
-        Ingresso ingresso1 = new Ingresso(1, filme1, sala1, sessao1, 20.0f, new Date(), false, estrategiaPadrao);
-        Ingresso ingressoPadrao = new Ingresso(1, filme1, sala1, sessao1, 20.0f, new Date(), false, estrategiaPadrao);
-        Ingresso ingressoPromocional = new Ingresso(2, filme2, sala2, sessao2, 20.0f, new Date(), true, estrategiaPromocional); // Meia-entrada
-
-        IPagamento pagamentoCartao = new PagamentoCartao("1234567890123456", "João Silva", "12/23", "Visa");
-
-        // Vender ingresso
-        gerenciador.venderIngresso(funcionario, ingresso1, pagamentoCartao);
     }
 }

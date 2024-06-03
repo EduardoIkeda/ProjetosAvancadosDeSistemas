@@ -73,20 +73,26 @@ public class Gerenciador {
 
     //#region Venda de ingresso
     void venderIngresso(Usuario funcionario, Ingresso ingresso, IPagamento metodoPagamento) {
-        // Implementação para vender ingresso
-        //TODO: Em caso de pagamento realizado com sucesso, chama a impressão do ticket
-        //TODO: Cálculo do valor do ingresso computado a partir da sessão
-        //TODO: Decrementa a quantidade de vagas na sessão
-        
+        // Verificar se o lugar está livre
+        Sessao sessao = ingresso.GetSessao();
+        int lugar = ingresso.GetLugar();
+
+        if (sessao.lugares[lugar] == 1) { // Lugar ocupado
+            System.out.println("O lugar selecionado já está ocupado. Por favor, escolha outro lugar.");
+            return;
+        }
+
+        // Realizar pagamento
         String codigoTransacao = metodoPagamento.RealizarPagamento();
-        
-        if(codigoTransacao != null) {
+
+        if (codigoTransacao != null) {
             System.out.println("Pagamento bem sucedido");
+            ingresso.SetCodigoTransacao(codigoTransacao);
             bancoDeDados.AdicionaIngresso(ingresso);
-            
-            Sessao sessao = ingresso.GetSessao();
-            sessao.SetLugarOcupado(ingresso.GetLugar());
-           
+
+            // Marcar o lugar como ocupado
+            sessao.SetLugarOcupado(lugar);
+
             ingresso.ImprimirIngresso();
         } else {
             System.out.println("Pagamento recusado.");

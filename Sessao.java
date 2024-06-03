@@ -29,4 +29,8 @@ public class Sessao {
     public Filme GetFilme() {
         return this.filme;
     }
+
+    public Sala GetSala() {
+        return this.sala;
+    }
 }

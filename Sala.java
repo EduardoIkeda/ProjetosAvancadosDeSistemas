@@ -18,4 +18,9 @@ public class Sala {
     {
         return this.capacidadeTotal;
     }
+
+    public int GetNumero() {
+        return numero;
+    }
+
 }
