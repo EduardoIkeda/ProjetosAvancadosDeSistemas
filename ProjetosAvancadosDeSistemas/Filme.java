@@ -1,3 +1,4 @@
+package ProjetosAvancadosDeSistemas;
 enum Categoria {
     ACAO,
     COMEDIA,

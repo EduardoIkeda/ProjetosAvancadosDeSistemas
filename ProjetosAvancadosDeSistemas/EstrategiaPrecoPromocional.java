@@ -1,3 +1,4 @@
+package ProjetosAvancadosDeSistemas;
 class EstrategiaPrecoPromocional implements EstrategiaPreco {
     private float desconto;
 
