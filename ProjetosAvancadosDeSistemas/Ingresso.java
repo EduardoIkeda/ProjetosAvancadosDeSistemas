@@ -14,7 +14,8 @@ public class Ingresso {
     int lugar;
     EstrategiaPreco estrategiaPreco; // Estratégia de cálculo de preço
 
-    public Ingresso(int id, int lugar, Sessao sessao, float valor, Date dataCompra, boolean meiaEntrada, EstrategiaPreco estrategiaPreco) {
+    public Ingresso(int id, int lugar, Sessao sessao, float valor, Date dataCompra, boolean meiaEntrada,
+            EstrategiaPreco estrategiaPreco) {
         this.id = id;
         this.sessao = sessao;
         this.valor = valor;
@@ -34,13 +35,14 @@ public class Ingresso {
         StringBuilder ticket = new StringBuilder();
 
         ticket.append("---------- INGRESSO ----------\n")
-              .append("Sala: ").append(sessao.GetSala().GetNumero()).append("\n")
-              .append("Filme: ").append(sessao.GetFilme().GetTitulo()).append("\n")
-              .append("Horário da Sessão: ").append(sdfHorario.format(sessao.GetHorarioInicio())).append("\n")
-              .append("Meia Entrada: ").append(meiaEntrada ? "Sim" : "Não").append("\n")
-              .append("Data da Compra: ").append(sdf.format(dataCompra)).append("\n")
-              .append("Lugar: ").append(lugar).append("\n")
-              .append("------------------------------\n");
+                .append("ID DO INGRESSO: ").append(id).append("\n")
+                .append("Sala: ").append(sessao.GetSala().GetNumero()).append("\n")
+                .append("Filme: ").append(sessao.GetFilme().GetTitulo()).append("\n")
+                .append("Horário da Sessão: ").append(sdfHorario.format(sessao.GetHorarioInicio())).append("\n")
+                .append("Meia Entrada: ").append(meiaEntrada ? "Sim" : "Não").append("\n")
+                .append("Data da Compra: ").append(sdf.format(dataCompra)).append("\n")
+                .append("Lugar: ").append(lugar).append("\n")
+                .append("------------------------------\n");
 
         System.out.println(ticket.toString());
     }
@@ -57,8 +59,7 @@ public class Ingresso {
         return lugar;
     }
 
-    public int GetID()
-    {
+    public int GetID() {
         return id;
     }
 

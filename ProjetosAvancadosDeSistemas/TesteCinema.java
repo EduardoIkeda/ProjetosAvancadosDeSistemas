@@ -31,11 +31,11 @@ public class TesteCinema {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.print("Selecione a opção desejada:");
-            System.out.print("1 - Realizar compra");
-            System.out.print("2 - Cancelar compra");
-            System.out.print("3 - Cadastrar/Atualizar banco");
-            System.out.print("0 - Sair");
+            System.out.println("Selecione a opção desejada:");
+            System.out.println("1 - Realizar compra");
+            System.out.println("2 - Cancelar compra");
+            System.out.println("3 - Cadastrar/Atualizar banco");
+            System.out.println("0 - Sair");
 
             int escolha = scanner.nextInt();
             if (escolha == 0) {
@@ -93,7 +93,7 @@ public class TesteCinema {
                             System.out.print(lugar + " ");
                         }
                         System.out.println();
-                        System.out.print("Digite o número do lugar desejado: ");
+                        System.out.println("Digite o número do lugar desejado: ");
                         int escolhaLugar = scanner.nextInt();
 
                         // Verificar se o lugar está disponível
@@ -102,13 +102,16 @@ public class TesteCinema {
                             continue;
                         }
 
-                        // Criar ingresso
-                        Ingresso ingresso = new Ingresso(1, escolhaLugar, sessaoEscolhida, 20.0f, new Date(), false,
-                                estrategiaPadrao);
+                        System.out.println("Meia entrada?");
+                        System.out.println("1 - Sim");
+                        System.out.println("1 - Não");
+                        escolha = scanner.nextInt();
 
-                        System.out.print("Qual foi a forma de pagamento?");
-                        System.out.print("1 - Pix");
-                        System.out.print("2 - Pagamento Cartão");
+                        
+
+                        System.out.println("Qual foi a forma de pagamento?");
+                        System.out.println("1 - Pix");
+                        System.out.println("2 - Pagamento Cartão");
                         escolha = scanner.nextInt();
 
                         IPagamento pagamento;
@@ -124,7 +127,10 @@ public class TesteCinema {
                             escolha = scanner.nextInt();
                             pagamento = new PagamentoCartao(escolha);
                         }
+                        int id = (int)(Math.random() * 50 + 1);
 
+                        Ingresso ingresso = new Ingresso(id, escolhaLugar, sessaoEscolhida, 20.0f, new Date(), escolha == 1? true : false,
+                                estrategiaPadrao);
                         // Vender ingresso
                         gerenciador.VenderIngresso(funcionario, ingresso, pagamento);
                     }
@@ -133,15 +139,15 @@ public class TesteCinema {
                 case 2:
                     while (true) {
                         // Perguntar ao funcionário se deseja comprar um ingresso ou sair
-                        System.out.print("Digite o ID do ingresso a ser cancelado ou 0 para voltar: ");
+                        System.out.println("Digite o ID do ingresso a ser cancelado ou 0 para voltar: ");
                         escolha = scanner.nextInt();
                         if (escolha == 0) {
                             break;
                         }
 
-                        System.out.print("Qual foi a forma de pagamento?");
-                        System.out.print("1 - Pix");
-                        System.out.print("2 - Pagamento Cartão");
+                        System.out.println("Qual foi a forma de pagamento?");
+                        System.out.println("1 - Pix");
+                        System.out.println("2 - Pagamento Cartão");
                         escolha = scanner.nextInt();
 
                         IPagamento pagamento;
@@ -152,7 +158,7 @@ public class TesteCinema {
                         }
                         else
                         {
-                            System.out.print("Digite o numero do cartao:");
+                            System.out.println("Digite o numero do cartao:");
                             escolha = scanner.nextInt();
                             pagamento = new PagamentoCartao(escolha);
                         }
