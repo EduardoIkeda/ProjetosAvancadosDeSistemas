@@ -4,7 +4,9 @@ enum Categoria {
     COMEDIA,
     INFANTIL,
     SUSPENSE,
-    TERROR
+    TERROR,
+    FICCAO,
+    DRAMA
 }
 
 public class Filme {

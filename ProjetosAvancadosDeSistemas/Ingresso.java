@@ -57,6 +57,11 @@ public class Ingresso {
         return lugar;
     }
 
+    public int GetID()
+    {
+        return id;
+    }
+
     // Método para calcular o preço do ingresso usando a estratégia definida
     public float calcularPrecoIngresso() {
         float precoBase = valor;

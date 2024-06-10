@@ -1,9 +1,7 @@
 package ProjetosAvancadosDeSistemas;
 public class PagamentoPix implements IPagamento {
-    private String chavePix;
 
-    public PagamentoPix(String chavePix) {
-        this.chavePix = chavePix;
+    public PagamentoPix() {
     }
 
     @Override
@@ -11,5 +9,11 @@ public class PagamentoPix implements IPagamento {
     {
         System.out.println("Pagamento Realizado com Pix!");
         return "codigo";
+    }
+
+    @Override
+    public void CancelarPagamento()
+    {
+        System.out.println("Estorno será realizado no prazo de 90 dias para a conta bancária correspondente.");
     }
 }

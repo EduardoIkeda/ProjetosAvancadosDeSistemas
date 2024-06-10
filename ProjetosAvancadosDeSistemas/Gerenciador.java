@@ -1,4 +1,5 @@
 package ProjetosAvancadosDeSistemas;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class Gerenciador {
 
     // #region Consulta de filme
 
-    //TODO: Get lista de filmes com sessoes cadastradas
+    // TODO: Get lista de filmes com sessoes cadastradas
     public List<Filme> GetFilmesComSessoesCadastradas() {
         List<Filme> filmesComSessoes = new ArrayList<>();
         List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
@@ -29,7 +30,7 @@ public class Gerenciador {
         return filmesComSessoes;
     }
 
-    //TODO: Get dias disponiveis para um certo filme
+    // TODO: Get dias disponiveis para um certo filme
     public List<Date> GetDiasDisponiveisParaFilme(Filme filme) {
         List<Date> diasDisponiveis = new ArrayList<>();
         List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
@@ -43,7 +44,7 @@ public class Gerenciador {
         return diasDisponiveis;
     }
 
-    //TODO: Get Lista de sessoes disponiveis para um filme em uma certa data
+    // TODO: Get Lista de sessoes disponiveis para um filme em uma certa data
     public List<Sessao> GetSessoesDisponiveisParaFilmeNaData(Filme filme, Date data) {
         List<Sessao> sessoesDisponiveis = new ArrayList<>();
         List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
@@ -70,10 +71,10 @@ public class Gerenciador {
 
         return lugaresDisponiveis;
     }
-    //#endregion
+    // #endregion
 
-    //#region Venda de ingresso
-    void venderIngresso(Usuario funcionario, Ingresso ingresso, IPagamento metodoPagamento) {
+    // #region Venda de ingresso
+    void VenderIngresso(Usuario funcionario, Ingresso ingresso, IPagamento metodoPagamento) {
         // Verificar se o lugar está livre
         Sessao sessao = ingresso.GetSessao();
         int lugar = ingresso.GetLugar();
@@ -100,16 +101,26 @@ public class Gerenciador {
         }
     }
 
-    void cancelarIngresso(Usuario funcionario, Ingresso ingresso, IPagamento metodoPagamento) {
-        // Implementação para cancelar ingresso
-        //TODO: Incrementa a quantidade de vagas da sessão
-        
-        // Exemplo de implementação:
-        Sessao sessao = ingresso.GetSessao();
-        sessao.SetLugarLivre(ingresso.GetLugar());
-        
-        bancoDeDados.RemoverIngresso(ingresso);
-        System.out.println("Ingresso cancelado com sucesso.");
+    void CancelarIngresso(Usuario funcionario, int idingresso, IPagamento metodoPagamento) {
+        List<Ingresso> ingressos = bancoDeDados.GetListaIngressos();
+        Ingresso ingressoParaCancelar = null;
+
+        for (Ingresso ingresso : ingressos) {
+            if (ingresso.GetID() == idingresso) {
+                ingressoParaCancelar = ingresso;
+                break;
+            }
+        }
+
+        if (ingressoParaCancelar != null) {
+            Sessao sessao = ingressoParaCancelar.GetSessao();
+            sessao.SetLugarLivre(ingressoParaCancelar.GetLugar());
+
+            bancoDeDados.RemoverIngresso(ingressoParaCancelar);
+            metodoPagamento.CancelarPagamento();
+
+            System.out.println("Ingresso cancelado com sucesso.");
+        }
     }
-    //#endregion
+    // #endregion
 }
