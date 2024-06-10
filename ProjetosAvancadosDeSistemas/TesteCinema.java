@@ -8,14 +8,14 @@ import java.util.Scanner;
 public class TesteCinema {
     public static void main(String[] args) {
         // Criar instância do cinema
-        Cinema cineMais = new Cinema("CineMais", "Rua A, 123");
+        Cinema cineMais = new Cinema("CineMais", "Rua A, 123", 12f, 20f);
 
         PreencherBanco(cineMais);
 
         Gerenciador gerenciador = new Gerenciador(cineMais);
 
         EstrategiaPreco estrategiaPadrao = new EstrategiaPrecoPadrao();
-        EstrategiaPreco estrategiaPromocional = new EstrategiaPrecoPromocional(0.2f); // 20% de desconto
+        //EstrategiaPreco estrategiaPromocional = new EstrategiaPrecoPromocional(0.2f); // 20% de desconto
 
         // Sell ticket
         Usuario funcionario = new Usuario("João", "123456");
@@ -29,6 +29,7 @@ public class TesteCinema {
 
         // Scanner para entrada do funcionário
         Scanner scanner = new Scanner(System.in);
+        
 
         while (true) {
             System.out.println("Selecione a opção desejada:");
@@ -104,12 +105,23 @@ public class TesteCinema {
 
                         System.out.println("Meia entrada?");
                         System.out.println("1 - Sim");
-                        System.out.println("1 - Não");
+                        System.out.println("2 - Não");
                         escolha = scanner.nextInt();
 
-                        
+                        int id = (int)(Math.random() * 50 + 1);
 
-                        System.out.println("Qual foi a forma de pagamento?");
+                        Ingresso ingresso = new Ingresso(id, escolhaLugar, sessaoEscolhida, new Date(), escolha == 1? true : false,
+                                estrategiaPadrao);
+
+                        System.out.println("Preço do ingresso");
+                        if(sessaoEscolhida.GetSala().getSala3D())
+                            ingresso.calcularPrecoIngresso(cineMais.getPrecoBase3D());
+                        else
+                            ingresso.calcularPrecoIngresso(cineMais.getPrecoBase());
+
+                        System.out.println("R$" + ingresso.GetValor());
+
+                        System.out.println("Qual a forma de pagamento?");
                         System.out.println("1 - Pix");
                         System.out.println("2 - Pagamento Cartão");
                         escolha = scanner.nextInt();
@@ -127,10 +139,7 @@ public class TesteCinema {
                             escolha = scanner.nextInt();
                             pagamento = new PagamentoCartao(escolha);
                         }
-                        int id = (int)(Math.random() * 50 + 1);
-
-                        Ingresso ingresso = new Ingresso(id, escolhaLugar, sessaoEscolhida, 20.0f, new Date(), escolha == 1? true : false,
-                                estrategiaPadrao);
+                        
                         // Vender ingresso
                         gerenciador.VenderIngresso(funcionario, ingresso, pagamento);
                     }
@@ -174,18 +183,14 @@ public class TesteCinema {
                     break;
             }
         }
-
+        scanner.close();
     }
 
     private static void PreencherBanco(Cinema cinema) {
-        // Criar equipamento para as salas
-        IEquipamentoSala equipamento3D = new Equipamento3D();
-        IEquipamentoSala equipamentoPadrao = new EquipamentoPadrao();
-
         // Criar salas
-        Sala sala1 = new Sala(1, 50, equipamento3D);
-        Sala sala2 = new Sala(2, 40, equipamentoPadrao);
-        Sala sala3 = new Sala(3, 60, equipamentoPadrao);
+        Sala sala1 = new Sala(1, 50, true);
+        Sala sala2 = new Sala(2, 40, false);
+        Sala sala3 = new Sala(3, 60, false);
 
         // Adicionar salas ao cinema
         cinema.adicionarSala(sala1);
@@ -212,10 +217,10 @@ public class TesteCinema {
         bancoDeDados.AdicionaSessao(sessao4);
 
         // Criar ingressos falsos
-        Ingresso ingresso1 = new Ingresso(1, 1, sessao1, 20.0f, new Date(), false, new EstrategiaPrecoPadrao());
-        Ingresso ingresso2 = new Ingresso(2, 2, sessao2, 20.0f, new Date(), true, new EstrategiaPrecoPadrao());
-        Ingresso ingresso3 = new Ingresso(3, 3, sessao3, 25.0f, new Date(), false, new EstrategiaPrecoPromocional(0.1f));
-        Ingresso ingresso4 = new Ingresso(4, 4, sessao4, 15.0f, new Date(), true, new EstrategiaPrecoPromocional(0.2f));
+        Ingresso ingresso1 = new Ingresso(1, 1, sessao1, new Date(), false, new EstrategiaPrecoPadrao());
+        Ingresso ingresso2 = new Ingresso(2, 2, sessao2, new Date(), true, new EstrategiaPrecoPadrao());
+        Ingresso ingresso3 = new Ingresso(3, 3, sessao3, new Date(), false, new EstrategiaPrecoPromocional(0.1f));
+        Ingresso ingresso4 = new Ingresso(4, 4, sessao4, new Date(), true, new EstrategiaPrecoPromocional(0.2f));
 
         // Adicionar ingressos ao banco de dados
         bancoDeDados.AdicionaIngresso(ingresso1);

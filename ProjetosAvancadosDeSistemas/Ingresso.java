@@ -14,11 +14,10 @@ public class Ingresso {
     int lugar;
     EstrategiaPreco estrategiaPreco; // Estratégia de cálculo de preço
 
-    public Ingresso(int id, int lugar, Sessao sessao, float valor, Date dataCompra, boolean meiaEntrada,
+    public Ingresso(int id, int lugar, Sessao sessao, Date dataCompra, boolean meiaEntrada,
             EstrategiaPreco estrategiaPreco) {
         this.id = id;
         this.sessao = sessao;
-        this.valor = valor;
         this.dataCompra = dataCompra;
         this.meiaEntrada = meiaEntrada;
         this.estrategiaPreco = estrategiaPreco; // Define a estratégia de preço
@@ -63,12 +62,16 @@ public class Ingresso {
         return id;
     }
 
+    public float GetValor() {
+        return valor;
+    }
+
     // Método para calcular o preço do ingresso usando a estratégia definida
-    public float calcularPrecoIngresso() {
-        float precoBase = valor;
-        if (meiaEntrada) {
-            precoBase /= 2; // Meia-entrada, preço é metade do valor base
-        }
-        return estrategiaPreco.calcularPreco(precoBase);
+    public void calcularPrecoIngresso(float precoBase) {
+
+        if(meiaEntrada)
+            precoBase /= 2;
+            
+        this.valor = estrategiaPreco.calcularPreco(precoBase);
     }
 }

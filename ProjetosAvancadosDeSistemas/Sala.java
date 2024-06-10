@@ -1,18 +1,16 @@
 package ProjetosAvancadosDeSistemas;
-import java.util.*;
 
 public class Sala {
     private int numero;
     private int capacidadeTotal;
-    private IEquipamentoSala equipamento;
-    private List<Sessao> sessoes;
+    private boolean sala3D;
 
-    public Sala(int numero, int capacidadeTotal, IEquipamentoSala equipamento)
+
+    public Sala(int numero, int capacidadeTotal, boolean sala3D)
     {
         this.numero = numero;
         this.capacidadeTotal = capacidadeTotal;
-        this.equipamento = equipamento;
-        this.sessoes = new ArrayList<>();
+        this.sala3D = sala3D;
     }
     
     public int GetCapacidadeTotal()
@@ -22,6 +20,11 @@ public class Sala {
 
     public int GetNumero() {
         return numero;
+    }
+
+    public boolean getSala3D()
+    {
+        return this.sala3D;
     }
 
 }
