@@ -14,44 +14,45 @@ public class Gerenciador {
     }
 
     // #region Consulta de filme
-
-    // TODO: Get lista de filmes com sessoes cadastradas
     public List<Filme> GetFilmesComSessoesCadastradas() {
         List<Filme> filmesComSessoes = new ArrayList<>();
         List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
 
         for (Sessao sessao : sessoes) {
-            Filme filme = sessao.GetFilme();
-            if (!filmesComSessoes.contains(filme)) {
-                filmesComSessoes.add(filme);
+            if(sessao.GetSessaoLivre())
+            {
+                Filme filme = sessao.GetFilme();
+            
+                if (!filmesComSessoes.contains(filme))
+                    filmesComSessoes.add(filme);
             }
         }
 
         return filmesComSessoes;
     }
 
-    // TODO: Get dias disponiveis para um certo filme
     public List<Date> GetDiasDisponiveisParaFilme(Filme filme) {
         List<Date> diasDisponiveis = new ArrayList<>();
         List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
 
         for (Sessao sessao : sessoes) {
             if (sessao.GetFilme().equals(filme)) {
-                diasDisponiveis.add(sessao.GetHorarioInicio());
+                if(sessao.GetSessaoLivre())
+                    diasDisponiveis.add(sessao.GetHorarioInicio());
             }
         }
 
         return diasDisponiveis;
     }
 
-    // TODO: Get Lista de sessoes disponiveis para um filme em uma certa data
     public List<Sessao> GetSessoesDisponiveisParaFilmeNaData(Filme filme, Date data) {
         List<Sessao> sessoesDisponiveis = new ArrayList<>();
         List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
 
         for (Sessao sessao : sessoes) {
             if (sessao.GetFilme().equals(filme) && sessao.GetHorarioInicio().equals(data)) {
-                sessoesDisponiveis.add(sessao);
+                if(sessao.GetSessaoLivre())
+                    sessoesDisponiveis.add(sessao);
             }
         }
 
@@ -74,8 +75,8 @@ public class Gerenciador {
     // #endregion
 
     // #region Venda de ingresso
+
     void VenderIngresso(Usuario funcionario, Ingresso ingresso, IPagamento metodoPagamento) {
-        // Verificar se o lugar está livre
         Sessao sessao = ingresso.GetSessao();
         int lugar = ingresso.GetLugar();
 

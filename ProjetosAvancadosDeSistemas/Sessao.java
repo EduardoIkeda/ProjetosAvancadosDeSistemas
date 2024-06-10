@@ -34,4 +34,15 @@ public class Sessao {
     public Sala GetSala() {
         return this.sala;
     }
+
+    public boolean GetSessaoLivre()
+    {
+        for (int i : lugares) {
+            if (i == 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
