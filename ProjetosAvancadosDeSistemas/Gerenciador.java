@@ -1,5 +1,6 @@
 package ProjetosAvancadosDeSistemas;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Gerenciador {
@@ -18,10 +19,9 @@ public class Gerenciador {
         List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
 
         for (Sessao sessao : sessoes) {
-            if(sessao.GetSessaoLivre())
-            {
+            if (sessao.GetSessaoLivre()) {
                 Filme filme = sessao.GetFilme();
-            
+
                 if (!filmesComSessoes.contains(filme))
                     filmesComSessoes.add(filme);
             }
@@ -30,13 +30,42 @@ public class Gerenciador {
         return filmesComSessoes;
     }
 
+    // #region Consulta de filme
+    public List<Filme> GetFilmesComSessoesNaData(Date data) {
+        List<Filme> filmesComSessoes = new ArrayList<>();
+        List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
+
+        for (Sessao sessao : sessoes) {
+            if (sessao.GetSessaoLivre() && mesmoDia(sessao.GetHorarioInicio(), data)) {
+                Filme filme = sessao.GetFilme();
+                if (!filmesComSessoes.contains(filme)) {
+                    filmesComSessoes.add(filme);
+                }
+            }
+        }
+
+        return filmesComSessoes;
+    }
+
+    private boolean mesmoDia(Date data1, Date data2) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(data1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(data2);
+
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+        cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+        cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
+    }
+    
+
     public List<Date> GetDiasDisponiveisParaFilme(Filme filme) {
         List<Date> diasDisponiveis = new ArrayList<>();
         List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
 
         for (Sessao sessao : sessoes) {
             if (sessao.GetFilme().equals(filme)) {
-                if(sessao.GetSessaoLivre())
+                if (sessao.GetSessaoLivre())
                     diasDisponiveis.add(sessao.GetHorarioInicio());
             }
         }
@@ -49,8 +78,8 @@ public class Gerenciador {
         List<Sessao> sessoes = bancoDeDados.GetListaSessoes();
 
         for (Sessao sessao : sessoes) {
-            if (sessao.GetFilme().equals(filme) && sessao.GetHorarioInicio().equals(data)) {
-                if(sessao.GetSessaoLivre())
+            if (sessao.GetFilme().equals(filme) && mesmoDia(sessao.GetHorarioInicio(), data)) {
+                if (sessao.GetSessaoLivre())
                     sessoesDisponiveis.add(sessao);
             }
         }

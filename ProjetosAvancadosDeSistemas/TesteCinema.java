@@ -1,5 +1,6 @@
 package ProjetosAvancadosDeSistemas;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,8 @@ public class TesteCinema {
         Gerenciador gerenciador = new Gerenciador(cineMais);
 
         EstrategiaPreco estrategiaPadrao = new EstrategiaPrecoPadrao();
-        //EstrategiaPreco estrategiaPromocional = new EstrategiaPrecoPromocional(0.2f); // 20% de desconto
+        // EstrategiaPreco estrategiaPromocional = new EstrategiaPrecoPromocional(0.2f);
+        // // 20% de desconto
 
         // Sell ticket
         Usuario funcionario = new Usuario("João", "123456");
@@ -29,13 +31,12 @@ public class TesteCinema {
 
         // Scanner para entrada do funcionário
         Scanner scanner = new Scanner(System.in);
-        
 
         while (true) {
             System.out.println("Selecione a opção desejada:");
             System.out.println("1 - Realizar compra");
             System.out.println("2 - Cancelar compra");
-            System.out.println("3 - Cadastrar/Atualizar banco");
+            System.out.println("3 - Consultar filmes para determinado dia");
             System.out.println("0 - Sair");
 
             int escolha = scanner.nextInt();
@@ -108,13 +109,14 @@ public class TesteCinema {
                         System.out.println("2 - Não");
                         escolha = scanner.nextInt();
 
-                        int id = (int)(Math.random() * 50 + 1);
+                        int id = (int) (Math.random() * 50 + 1);
 
-                        Ingresso ingresso = new Ingresso(id, escolhaLugar, sessaoEscolhida, new Date(), escolha == 1? true : false,
+                        Ingresso ingresso = new Ingresso(id, escolhaLugar, sessaoEscolhida, new Date(),
+                                escolha == 1 ? true : false,
                                 estrategiaPadrao);
 
                         System.out.println("Preço do ingresso");
-                        if(sessaoEscolhida.GetSala().getSala3D())
+                        if (sessaoEscolhida.GetSala().getSala3D())
                             ingresso.calcularPrecoIngresso(cineMais.getPrecoBase3D());
                         else
                             ingresso.calcularPrecoIngresso(cineMais.getPrecoBase());
@@ -128,18 +130,15 @@ public class TesteCinema {
 
                         IPagamento pagamento;
 
-                        if(escolha == 1)
-                        {
+                        if (escolha == 1) {
                             pagamento = new PagamentoPix();
                             pagamento.CancelarPagamento();
-                        }
-                        else
-                        {
+                        } else {
                             System.out.print("Digite o numero do cartao:");
                             escolha = scanner.nextInt();
                             pagamento = new PagamentoCartao(escolha);
                         }
-                        
+
                         // Vender ingresso
                         gerenciador.VenderIngresso(funcionario, ingresso, pagamento);
                     }
@@ -161,12 +160,9 @@ public class TesteCinema {
 
                         IPagamento pagamento;
 
-                        if(escolha == 1)
-                        {
+                        if (escolha == 1) {
                             pagamento = new PagamentoPix();
-                        }
-                        else
-                        {
+                        } else {
                             System.out.println("Digite o numero do cartao:");
                             escolha = scanner.nextInt();
                             pagamento = new PagamentoCartao(escolha);
@@ -176,7 +172,16 @@ public class TesteCinema {
                     }
                     break;
                 case 3:
-                    
+                    System.out.print("Digite a data desejada (dd/MM/yyyy): ");
+                    String dataString = scanner.next();
+                    Date diaEscolhido;
+                    try {
+                        diaEscolhido = new SimpleDateFormat("dd/MM/yyyy").parse(dataString);
+                    } catch (ParseException e) {
+                        System.out.println("Data inválida. Por favor, digite no formato correto.");
+                        break;
+                    }
+                    consultarFilmesComSessaoNaData(gerenciador, diaEscolhido);
                     break;
 
                 default:
@@ -186,6 +191,36 @@ public class TesteCinema {
         scanner.close();
     }
 
+    private static void consultarFilmesComSessaoNaData(Gerenciador gerenciador, Date diaEscolhido) {
+        List<Filme> filmesComSessao = gerenciador.GetFilmesComSessoesNaData(diaEscolhido);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+    
+        System.out.println("------ Filmes -------");
+        for (Filme filme : filmesComSessao) {
+            List<Sessao> sessoesDoFilme = gerenciador.GetSessoesDisponiveisParaFilmeNaData(filme, diaEscolhido);
+            
+            if (sessoesDoFilme.isEmpty()) {
+                System.out.println(filme.GetTitulo() + " / Não há sessões disponíveis neste dia.");
+                continue; // Vai para a próxima iteração do loop
+            }
+    
+            StringBuilder horarios = new StringBuilder();
+            for (Sessao sessao : sessoesDoFilme) {
+                horarios.append(sdf.format(sessao.GetHorarioInicio())).append(" ");
+            }
+    
+            String infoSala;
+
+            if (sessoesDoFilme.get(0).GetSala().getSala3D()) {
+                infoSala = "3D";
+            } else {
+                infoSala = "2D";
+            }
+            System.out.println(filme.GetTitulo() + " / " + infoSala + " / " + horarios.toString());
+        }
+    }
+    
+    
     private static void PreencherBanco(Cinema cinema) {
         // Criar salas
         Sala sala1 = new Sala(1, 50, true);
@@ -199,9 +234,12 @@ public class TesteCinema {
 
         // Criar filmes
         Filme filme1 = new Filme("The Matrix", "Lana Wachowski", "Keanu Reeves", 136, "14 anos", Categoria.ACAO);
-        Filme filme2 = new Filme("Inception", "Christopher Nolan", "Leonardo DiCaprio", 148, "14 anos", Categoria.SUSPENSE);
-        Filme filme3 = new Filme("Interstellar", "Christopher Nolan", "Matthew McConaughey", 169, "10 anos", Categoria.FICCAO);
-        Filme filme4 = new Filme("The Godfather", "Francis Ford Coppola", "Marlon Brando", 175, "16 anos", Categoria.DRAMA);
+        Filme filme2 = new Filme("Inception", "Christopher Nolan", "Leonardo DiCaprio", 148, "14 anos",
+                Categoria.SUSPENSE);
+        Filme filme3 = new Filme("Interstellar", "Christopher Nolan", "Matthew McConaughey", 169, "10 anos",
+                Categoria.FICCAO);
+        Filme filme4 = new Filme("The Godfather", "Francis Ford Coppola", "Marlon Brando", 175, "16 anos",
+                Categoria.DRAMA);
 
         // Criar sessões
         Sessao sessao1 = new Sessao(new Date(), filme1, sala1);
