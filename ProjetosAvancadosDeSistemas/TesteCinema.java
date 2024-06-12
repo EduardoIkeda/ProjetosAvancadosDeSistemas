@@ -152,6 +152,8 @@ public class TesteCinema {
                             break;
                         }
 
+                        int id = escolha;
+
                         System.out.println("Qual foi a forma de pagamento?");
                         System.out.println("1 - Pix");
                         System.out.println("2 - Pagamento Cartão");
@@ -167,7 +169,7 @@ public class TesteCinema {
                             pagamento = new PagamentoCartao(escolha);
                         }
 
-                        gerenciador.CancelarIngresso(funcionario, escolha, pagamento);
+                        gerenciador.CancelarIngresso(funcionario, id, pagamento);
                     }
                     break;
                 case 3:
