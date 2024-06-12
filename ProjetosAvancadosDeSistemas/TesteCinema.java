@@ -132,7 +132,6 @@ public class TesteCinema {
 
                         if (escolha == 1) {
                             pagamento = new PagamentoPix();
-                            pagamento.CancelarPagamento();
                         } else {
                             System.out.print("Digite o numero do cartao:");
                             escolha = scanner.nextInt();
